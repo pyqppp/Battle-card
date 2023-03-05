@@ -7,8 +7,8 @@ m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': T
 p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}
 Riot_shield = {'defense': 30, 'name': '防爆盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
 bandage = {'treat': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
-p1 = {'blood': 100, 'shield': 0, 'step': 0}
-p2 = {'blood': 100, 'shield': 0, 'step': 0}
+p1 = {'health': 100, 'shield': 0, 'step': 0}
+p2 = {'health': 100, 'shield': 0, 'step': 0}
 
 
 def draw_card():
@@ -57,7 +57,7 @@ def ak47_attack(who):  # who是发起攻击的人
             p1['step'] -= ak47['step']
         elif p2['shield'] < ak47['attack']:
             p2['shield'] = 0
-            p2['blood'] -= ak47['attack']
+            p2['health'] -= ak47['attack']
             p1['step'] -= ak47['step']
     if who == 'p2' and p2['step'] >= ak47['step']:
         if p1['shield'] >= ak47['attack']:
@@ -65,7 +65,7 @@ def ak47_attack(who):  # who是发起攻击的人
             p2['step'] -= ak47['step']
         elif p1['shield'] < ak47['attack']:
             p1['shield'] = 0
-            p1['blood'] -= ak47['attack']
+            p1['health'] -= ak47['attack']
             p2['step'] -= ak47['step']
 
 
@@ -77,7 +77,7 @@ def m416_attack(who):  # who是发起攻击的人
             p1['step'] -= m416['step']
         elif p2['shield'] < m416['attack']:
             p2['shield'] = 0
-            p2['blood'] -= m416['attack']
+            p2['health'] -= m416['attack']
             p1['step'] -= m416['step']
     if who == 'p2' and p2['step'] >= m416['step']:
         if p1['shield'] >= m416['attack']:
@@ -85,5 +85,5 @@ def m416_attack(who):  # who是发起攻击的人
             p2['step'] -= m416['step']
         elif p1['shield'] < m416['attack']:
             p1['shield'] = 0
-            p1['blood'] -= m416['attack']
+            p1['health'] -= m416['attack']
             p2['step'] -= m416['step']
