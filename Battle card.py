@@ -5,7 +5,7 @@ import random
 ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True}
 m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True}
 p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}
-Riot_shield = {'defense': 30, 'name': '防爆盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
+riot_shield = {'defense': 30, 'name': '防爆盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
 bandage = {'treat': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
 p1 = {'health': 100, 'shield': 0, 'step': 0.0}
 p2 = {'health': 100, 'shield': 0, 'step': 0.0}
@@ -41,7 +41,7 @@ def draw_card():
             else:
                 continue
         elif msg == 4:
-            card.append(Riot_shield)
+            card.append(riot_shield)
         elif msg == 5:
             card.append(bandage)
         i += 1
@@ -107,3 +107,29 @@ def p18c_attack(who):  # who是发起攻击的人
             p1['shield'] = 0
             p1['health'] -= p18c['attack']
             p2['step'] -= p18c['step']
+
+
+# riot_shield
+def riot_shield_defense(who):  # who是被加护盾的人
+    if who == 'p1':
+        p1['shield'] += riot_shield['defense']
+        p1['step'] -= riot_shield['step']
+    elif who == 'p2':
+        p2['shield'] += riot_shield['defense']
+        p2['step'] -= riot_shield['step']
+
+
+# bandage
+def bandage_treat(who):  # who 是被治疗的人
+    if who == 'p1' and p1['health'] <= 70:
+        p1['health'] += bandage['treat']
+        p1['step'] -= bandage['step']
+    else:
+        p1['health'] = 100
+        p1['step'] -= bandage['step']
+    if who == 'p2' and p2['health'] <= 70:
+        p2['health'] += bandage['treat']
+        p2['step'] -= bandage['step']
+    elif p2['health'] > 70:
+        p2['health'] = 100
+        p2['step'] -= bandage['step']
