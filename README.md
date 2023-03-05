@@ -1,4 +1,4 @@
-# Battle-card
+# Battle-card(战斗卡牌)
 一个来自中国的十一岁小学生的一个小游戏。;A small game of an 11-year-old primary school student from China.
 
 此游戏为在学校中由同学发明的一个卡牌游戏为灵感。;This game is inspired by a card game invented by students in school.
