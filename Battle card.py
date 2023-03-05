@@ -18,21 +18,30 @@ def game_player():
 def draw_card():
     i = 1
     card = []
+    __ak47 = 0
+    __m416 = 0
+    __p18c = 0
+    __attack = 0
     while i < 6:
         msg = random.randint(1, 6)
         if msg == 1:
-            if not (ak47 in msg):
+            if __ak47 < 1 and __attack < 1:
                 card.append(ak47)
+                __ak47 += 1
+                __attack += 1
             else:
                 continue
         elif msg == 2:
-            if not (m416 in msg):
+            if __m416 < 1 and __attack < 1:
                 card.append(m416)
+                __m416 += 1
+                __attack += 1
             else:
                 continue
         elif msg == 3:
-            if not (p18c in msg):
+            if __p18c < 1 and (__ak47 == 1 or __m416 == 1):
                 card.append(p18c)
+                __p18c += 1
             else:
                 continue
         elif msg == 4:
