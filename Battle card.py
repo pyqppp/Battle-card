@@ -21,21 +21,21 @@ def draw_card():
     __ak47 = 0
     __m416 = 0
     __p18c = 0
-    __attack = 0
+    __rifle = 0
     while i < 6:
         msg = random.randint(1, 6)
         if msg == 1:
-            if __ak47 < 1 and __attack < 1:
+            if __ak47 < 1 and __rifle < 1:
                 card.append(ak47)
                 __ak47 += 1
-                __attack += 1
+                __rifle += 1
             else:
                 continue
         elif msg == 2:
-            if __m416 < 1 and __attack < 1:
+            if __m416 < 1 and __rifle < 1:
                 card.append(m416)
                 __m416 += 1
-                __attack += 1
+                __rifle += 1
             else:
                 continue
         elif msg == 3:
