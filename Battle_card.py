@@ -2,14 +2,14 @@
 # coding=utf-8
 # 导入库
 import random
-
+import os
 # 创建变量
 ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True}
 m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True}
 p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}
 grenade = {'attack': 60, 'name': 'grenade', 'kind': 'attack', 'step': 1.0, 'repeat': False}
-riot_shield = {'defense': 30, 'name': '护盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
-bandage = {'treat': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
+riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
+bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
 p1 = {'health': 100, 'shield': 0, 'step': 0.0}
 p2 = {'health': 100, 'shield': 0, 'step': 0.0}
 
@@ -218,6 +218,7 @@ while True:
     if p2['health'] <= 0:
         print('p2失败了')
         break
+    os.system('cls')
     print('现在是玩家2的回合，您现在有:', p2_cards,
           '\n玩家1现在有: ', p1_cards,
           '\n玩家2，你现在的状态为', '血量:', p2['health'], '护盾:', p2['shield'], '步数:', p2['step'],
@@ -263,3 +264,4 @@ while True:
     if p2['health'] <= 0:
         print('p2失败了')
         break
+    os.system('cls')
