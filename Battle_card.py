@@ -7,8 +7,8 @@ import os
 ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True}
 m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True}
 p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}
-grenade = {'attack': 60, 'name': 'grenade', 'kind': 'attack', 'step': 1.0, 'repeat': False}
-riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 0.5, 'repeat': False}
+grenade = {'attack': 60, 'name': 'grenade', 'kind': 'attack', 'step': 1.5, 'repeat': False}
+riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False}
 bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
 p1 = {'health': 100, 'shield': 0, 'step': 0.0}
 p2 = {'health': 100, 'shield': 0, 'step': 0.0}
@@ -44,19 +44,23 @@ def draw_card():
             else:
                 continue
         elif msg == 4:
-            card.append('护盾,0.5步')
+            msg = random.randint(1, 3)
+            if msg != 1:
+                card.append('护盾,0.5步')
+            else:
+                continue
         elif msg == 5:
             card.append('绷带,0.5步')
         elif msg == 6:
-            card.append('手榴弹,1.0步')
+            card.append('手榴弹,1.5步')
         i += 1
     if __rifle == 0:
         del card[1]
         msg = random.randint(1, 3)
         if msg == 1:
-            card.append('ak47')
+            card.append('ak47,1.5步')
         if msg == 2:
-            card.append('m416')
+            card.append('m416,1步')
     return card
 
 
@@ -68,16 +72,14 @@ def ak47_attack(who):  # who是发起攻击的人
             p2['shield'] -= ak47['attack']
             p1['step'] -= ak47['step']
         elif p2['shield'] < ak47['attack']:
-            p2['shield'] = 0
-            p2['health'] -= ak47['attack']
+            p2['health'] -= ak47['attack'] - p2['shield']
             p1['step'] -= ak47['step']
     if who == 'p2' and p2['step'] >= ak47['step']:
         if p1['shield'] >= ak47['attack']:
             p1['shield'] -= ak47['attack']
             p2['step'] -= ak47['step']
         elif p1['shield'] < ak47['attack']:
-            p1['shield'] = 0
-            p1['health'] -= ak47['attack']
+            p1['health'] -= ak47['attack'] - p1['shield']
             p2['step'] -= ak47['step']
 
 
@@ -88,16 +90,14 @@ def m416_attack(who):  # who是发起攻击的人
             p2['shield'] -= m416['attack']
             p1['step'] -= m416['step']
         elif p2['shield'] < m416['attack']:
-            p2['shield'] = 0
-            p2['health'] -= m416['attack']
+            p2['health'] -= m416['attack'] - p2['shield']
             p1['step'] -= m416['step']
     if who == 'p2' and p2['step'] >= m416['step']:
         if p1['shield'] >= m416['attack']:
             p1['shield'] -= m416['attack']
             p2['step'] -= m416['step']
         elif p1['shield'] < m416['attack']:
-            p1['shield'] = 0
-            p1['health'] -= m416['attack']
+            p1['health'] -= m416['attack'] - p1['shield']
             p2['step'] -= m416['step']
 
 
@@ -108,16 +108,14 @@ def p18c_attack(who):  # who是发起攻击的人
             p2['shield'] -= p18c['attack']
             p1['step'] -= p18c['step']
         elif p2['shield'] < p18c['attack']:
-            p2['shield'] = 0
-            p2['health'] -= p18c['attack']
+            p2['health'] -= p18c['attack'] - p2['shield']
             p1['step'] -= p18c['step']
     if who == 'p2' and p2['step'] >= p18c['step']:
         if p1['shield'] >= p18c['attack']:
             p1['shield'] -= p18c['attack']
             p2['step'] -= p18c['step']
         elif p1['shield'] < p18c['attack']:
-            p1['shield'] = 0
-            p1['health'] -= p18c['attack']
+            p1['health'] -= p18c['attack'] - p1['shield']
             p2['step'] -= p18c['step']
 
 
@@ -128,16 +126,18 @@ def grenade_attack(who):  # who是发起攻击的人
             p2['shield'] -= grenade['attack']
             p1['step'] -= grenade['step']
         elif p2['shield'] < grenade['attack']:
-            p2['shield'] = 0
             p2['health'] -= grenade['attack']
+            if p2['health'] <= 5:
+                p2['health'] = 0
             p1['step'] -= grenade['step']
     if who == 'p2' and p2['step'] >= grenade['step']:
         if p1['shield'] >= grenade['attack']:
             p1['shield'] -= grenade['attack']
             p2['step'] -= grenade['step']
         elif p1['shield'] < grenade['attack']:
-            p1['shield'] = 0
             p1['health'] -= grenade['attack']
+            if p1['health'] <= 5:
+                p1['health'] = 0
             p2['step'] -= grenade['step']
 
 
@@ -156,13 +156,13 @@ def bandage_treat(who):  # who 是被治疗的人
     if who == 'p1' and p1['health'] <= 70 and p1['step'] >= bandage['step']:
         p1['health'] += bandage['treat']
         p1['step'] -= bandage['step']
-    elif who == 'p1' and p1['health'] > 70:
+    elif who == 'p1' and p1['health'] > 70 and p1['step'] >= bandage['step']:
         p1['health'] = 100
         p1['step'] -= bandage['step']
     if who == 'p2' and p2['health'] <= 70 and p2['step'] >= bandage['step']:
-        p2['health'] += bandage['treat']
+        p2['health'] += bandage['health']
         p2['step'] -= bandage['step']
-    elif who == 'p2' and p2['health'] > 70:
+    elif who == 'p2' and p2['health'] > 70 and p2['step'] >= bandage['step']:
         p2['health'] = 100
         p2['step'] -= bandage['step']
 
