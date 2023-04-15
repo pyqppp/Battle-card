@@ -228,12 +228,12 @@ while True:
             p1_cards.remove('手榴弹,1.0步')
         else:
             print('您没有手榴弹')
-    elif msg1 =='midisions_bag':
-        if 'midisions_bag,1步' in p1_cards:
+    elif msg1 =='药包':
+        if '药包,1步' in p1_cards:
             midisions_bag('p1')
-            p1_cards.remove('midisions_bag,1步')
+            p1_cards.remove('药包,1步')
         else:
-            print('您没有midisions_bag')
+            print('您没有药包')
     elif msg1 == 's':
         p1['step'] += 1
     if p2['health'] <= 0:
@@ -277,12 +277,12 @@ while True:
             p2_cards.remove('手榴弹,1.0步')
         else:
             print('您没有手榴弹')
-    elif msg1 =='midisions_bag':
-        if'midisions_bag,1步' in p2_cards:
+    elif msg1 =='药包':
+        if'药包,1步' in p2_cards:
             midisions_bag('p2')
-            p2_cards.remove('midisions_bag,1步')
+            p2_cards.remove('药包,1步')
         else:
-            print('您没有midisions_bag')
+            print('您没有药包')
     elif msg1 == 's':
         p2['step'] += 1
     if p1['health'] <= 0:
