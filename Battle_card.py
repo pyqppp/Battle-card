@@ -10,6 +10,7 @@ p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': T
 grenade = {'attack': 60, 'name': 'grenade', 'kind': 'attack', 'step': 1.5, 'repeat': False}
 riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False}
 bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
+medicine_bag = {'health':80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False}
 p1 = {'health': 100, 'shield': 0, 'step': 0.0}
 p2 = {'health': 100, 'shield': 0, 'step': 0.0}
 
@@ -53,6 +54,8 @@ def draw_card():
             card.append('绷带,0.5步')
         elif msg == 6:
             card.append('手榴弹,1.5步')
+        elif msg == 7:
+            card.append('药包,1.5步')
         i += 1
     if __rifle == 0:
         del card[1]
@@ -167,6 +170,21 @@ def bandage_treat(who):  # who 是被治疗的人
         p2['step'] -= bandage['step']
 
 
+# midisions_bag
+def midisions_bag(who): # who 是被治疗的人
+    if who == 'p1' and p1['health'] <= 20 and p1['step'] >= midisions_bag['step']:
+        p1['health'] += midisions_bag['treat']
+        p1['step'] -= midisions_bag['step']
+    elif who == 'p1' and p1['health'] > 20 and p1['step'] >= midisions_bag['step']:
+        p1['health'] = 100
+        p1['step'] -= midisions_bag['step']
+    if who == 'p2' and p2['health'] <= 20 and p2['step'] >= midisions_bag['step']:
+        p2['health'] += midisions_bag['health']
+        p2['step'] -= midisions_bag['step']
+    elif who == 'p2' and p2['health'] > 20 and p2['step'] >= midisions_bag['step']:
+        p2['health'] = 100
+        p2['step'] -= midisions_bag['step']
+
 # 游戏主体
 p1_cards = draw_card()
 p2_cards = draw_card()
@@ -210,11 +228,14 @@ while True:
             p1_cards.remove('手榴弹,1.0步')
         else:
             print('您没有手榴弹')
+    elif msg1 =='midisions_bag':
+        if 'midisions_bag,1步' in p1_cards:
+            midisions_bag('p1')
+            p1_cards.remove('midisions_bag,1步')
+        else:
+            print('您没有midisions_bag')
     elif msg1 == 's':
         p1['step'] += 1
-    if p1['health'] <= 0:
-        print('p1失败了')
-        break
     if p2['health'] <= 0:
         print('p2失败了')
         break
@@ -256,12 +277,15 @@ while True:
             p2_cards.remove('手榴弹,1.0步')
         else:
             print('您没有手榴弹')
+    elif msg1 =='midisions_bag':
+        if'midisions_bag,1步' in p2_cards:
+            midisions_bag('p2')
+            p2_cards.remove('midisions_bag,1步')
+        else:
+            print('您没有midisions_bag')
     elif msg1 == 's':
         p2['step'] += 1
     if p1['health'] <= 0:
         print('p1失败了')
-        break
-    if p2['health'] <= 0:
-        print('p2失败了')
         break
     os.system('cls')
