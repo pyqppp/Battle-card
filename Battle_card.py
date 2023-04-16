@@ -223,9 +223,9 @@ while True:
         else:
             print('您没有绷带')
     elif msg1 == '手榴弹':
-        if '手榴弹,1.0步' in p1_cards:
+        if '手榴弹,1.5步' in p1_cards:
             grenade_attack('p1')
-            p1_cards.remove('手榴弹,1.0步')
+            p1_cards.remove('手榴弹,1.5步')
         else:
             print('您没有手榴弹')
     elif msg1 =='药包':
@@ -272,9 +272,9 @@ while True:
             bandage_treat('p2')
             p2_cards.remove('绷带,0.5步')
     elif msg1 == '手榴弹':
-        if '手榴弹,1.0步' in p2_cards:
+        if '手榴弹,1.5步' in p2_cards:
             grenade_attack('p2')
-            p2_cards.remove('手榴弹,1.0步')
+            p2_cards.remove('手榴弹,1.5步')
         else:
             print('您没有手榴弹')
     elif msg1 =='药包':
