@@ -4,15 +4,15 @@
 import random
 import os
 # 创建变量
-ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True}
-m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True}
-p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}
-grenade = {'attack': 60, 'name': 'grenade', 'kind': 'attack', 'step': 1.5, 'repeat': False}
-riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False}
-bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}
-medicine_bag = {'health':80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False}
-p1 = {'health': 100, 'shield': 0, 'step': 0.0}
-p2 = {'health': 100, 'shield': 0, 'step': 0.0}
+ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True} # ak47
+m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True} # m416
+p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True} # p18c
+grenade = {'attack': 60, 'name': '手榴弹', 'kind': 'attack', 'step': 1.5, 'repeat': False} # 手榴弹
+riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False} # 护盾
+bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False} # 绷带
+medicine_bag = {'health':80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False} # 药包
+p1 = {'health': 100, 'shield': 0, 'step': 0.0} # p1角色状态
+p2 = {'health': 100, 'shield': 0, 'step': 0.0} # p2角色状态
 
 
 def draw_card():
@@ -23,7 +23,7 @@ def draw_card():
     __p18c = 0
     __rifle = 0
     while i < 5:
-        msg = random.randint(1, 6)
+        msg = random.randint(1, 7)
         if msg == 1:
             if __ak47 < 1 and __rifle < 1:
                 card.append('ak47,1.5步')
