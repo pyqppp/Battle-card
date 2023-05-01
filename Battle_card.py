@@ -157,7 +157,7 @@ def riot_shield_defense(who):  # who是被加护盾的人
 # bandage
 def bandage_treat(who):  # who 是被治疗的人
     if who == 'p1' and p1['health'] <= 70 and p1['step'] >= bandage['step']:
-        p1['health'] += bandage['treat']
+        p1['health'] += bandage['health']
         p1['step'] -= bandage['step']
     elif who == 'p1' and p1['health'] > 70 and p1['step'] >= bandage['step']:
         p1['health'] = 100
@@ -170,20 +170,20 @@ def bandage_treat(who):  # who 是被治疗的人
         p2['step'] -= bandage['step']
 
 
-# midisions_bag
-def midisions_bag(who): # who 是被治疗的人
-    if who == 'p1' and p1['health'] <= 20 and p1['step'] >= midisions_bag['step']:
-        p1['health'] += midisions_bag['treat']
-        p1['step'] -= midisions_bag['step']
-    elif who == 'p1' and p1['health'] > 20 and p1['step'] >= midisions_bag['step']:
+# medicine_bag
+def medicine_bag_treet(who): # who 是被治疗的人
+    if who == 'p1' and p1['health'] <= 20 and p1['step'] >= medicine_bag['step']:
+        p1['health'] += medicine_bag['health']
+        p1['step'] -= medicine_bag['step']
+    elif who == 'p1' and p1['health'] > 20 and p1['step'] >= medicine_bag['step']:
         p1['health'] = 100
-        p1['step'] -= midisions_bag['step']
-    if who == 'p2' and p2['health'] <= 20 and p2['step'] >= midisions_bag['step']:
-        p2['health'] += midisions_bag['health']
-        p2['step'] -= midisions_bag['step']
-    elif who == 'p2' and p2['health'] > 20 and p2['step'] >= midisions_bag['step']:
+        p1['step'] -= medicine_bag['step']
+    if who == 'p2' and p2['health'] <= 20 and p2['step'] >= medicine_bag['step']:
+        p2['health'] += medicine_bag['health']
+        p2['step'] -= medicine_bag['step']
+    elif who == 'p2' and p2['health'] > 20 and p2['step'] >= medicine_bag['step']:
         p2['health'] = 100
-        p2['step'] -= midisions_bag['step']
+        p2['step'] -= medicine_bag['step']
 
 # 游戏主体
 p1_cards = draw_card()
@@ -229,9 +229,9 @@ while True:
         else:
             print('您没有手榴弹')
     elif msg1 =='药包':
-        if '药包,1步' in p1_cards:
-            midisions_bag('p1')
-            p1_cards.remove('药包,1步')
+        if '药包,1.5步' in p1_cards:
+            medicine_bag_treet('p1')
+            p1_cards.remove('药包,1.5步')
         else:
             print('您没有药包')
     elif msg1 == 's':
@@ -278,9 +278,9 @@ while True:
         else:
             print('您没有手榴弹')
     elif msg1 =='药包':
-        if'药包,1步' in p2_cards:
-            midisions_bag('p2')
-            p2_cards.remove('药包,1步')
+        if'药包,1.5步' in p2_cards:
+            medicine_bag_treet('p2')
+            p2_cards.remove('药包,1.5步')
         else:
             print('您没有药包')
     elif msg1 == 's':
