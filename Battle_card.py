@@ -10,9 +10,10 @@ p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': T
 grenade = {'attack': 60, 'name': '手榴弹', 'kind': 'attack', 'step': 1.5, 'repeat': False} # 手榴弹
 riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False} # 护盾
 bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False} # 绷带
-medicine_bag = {'health':80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False} # 药包
-p1 = {'health': 100, 'shield': 0, 'step': 0.0} # p1角色状态
-p2 = {'health': 100, 'shield': 0, 'step': 0.0} # p2角色状态
+medicine_bag = {'health': 80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False} # 药包
+stun_grenade = {'control': 1, 'name': 'stun_grenade', 'kind': 'control', 'step': 0.5, 'repeat': False} # 震爆弹
+p1 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0} # p1角色状态
+p2 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0} # p2角色状态
 
 
 def draw_card():
@@ -184,6 +185,17 @@ def medicine_bag_treet(who): # who 是被治疗的人
     elif who == 'p2' and p2['health'] > 20 and p2['step'] >= medicine_bag['step']:
         p2['health'] = 100
         p2['step'] -= medicine_bag['step']
+
+
+# stun_grenade
+def stun_grenade_control(who): # who 是被控制的人
+    if who == 'p1' and p2['step'] >=  stun_grenade['step']:
+        p1['control'] += stun_grenade['control']
+        p2['step'] -= stun_grenade['step']
+    if who == 'p2' and p2['step'] >= stun_grenade['step']:
+        p2['control'] += stun_grenade['control']
+        p1['step'] -= stun_grenade['step']
+
 
 # 游戏主体
 p1_cards = draw_card()
