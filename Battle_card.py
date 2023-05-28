@@ -239,7 +239,7 @@ while True:
                 p1['step'] += 1
             os.system('cls')
         else:
-            p2['control'] -= 1
+            p1['control'] -= 1
         turn = 1
     elif turn == 1:
         if p2['control'] == 0:
