@@ -3,54 +3,47 @@
 # 导入库
 import random
 import os
+
 # 创建变量
-ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True} # ak47
-m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True} # m416
-p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True} # p18c
-grenade = {'attack': 60, 'name': '手榴弹', 'kind': 'attack', 'step': 1.5, 'repeat': False} # 手榴弹
-riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False} # 护盾
-bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False} # 绷带
-medicine_bag = {'health': 80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False} # 药包
-stun_grenade = {'control': 2, 'name': '震爆弹', 'kind': 'control', 'step': 1.0, 'repeat': False} # 震爆弹
-p1 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0} # p1角色状态
-p2 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0} # p2角色状态
+ak47 = {'attack': 50, 'name': 'ak47', 'kind': 'attack', 'step': 1.5, 'repeat': True}  # ak47
+m416 = {'attack': 35, 'name': 'm416', 'kind': 'attack', 'step': 1.0, 'repeat': True}  # m416
+p18c = {'attack': 20, 'name': 'p18c', 'kind': 'attack', 'step': 0.5, 'repeat': True}  # p18c
+grenade = {'attack': 60, 'name': '手榴弹', 'kind': 'attack', 'step': 1.5, 'repeat': False}  # 手榴弹
+riot_shield = {'defense': 50, 'name': '护盾', 'kind': 'defense', 'step': 1.0, 'repeat': False}  # 护盾
+bandage = {'health': 30, 'name': '绷带', 'kind': 'treat', 'step': 0.5, 'repeat': False}  # 绷带
+medicine_bag = {'health': 80, 'name': '药包', 'kind': 'health', 'step': 1.5, 'repeat': False}  # 药包
+stun_grenade = {'control': 2, 'name': '震爆弹', 'kind': 'control', 'step': 1.0, 'repeat': False}  # 震爆弹
+p1 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0}  # p1角色状态
+p2 = {'health': 100, 'shield': 0, 'step': 0.0, 'control': 0}  # p2角色状态
 
 
 def draw_card():
     i = 0
     card = []
-    __ak47 = 0
-    __m416 = 0
-    __p18c = 0
+    __pistol = 0
     __rifle = 0
-    while i < 5:
+    while i < 6:
         msg = random.randint(1, 8)
         if msg == 1:
-            if __ak47 < 1 and __rifle < 1:
+            if __rifle < 1:
                 card.append('ak47,1.5步')
-                __ak47 += 1
                 __rifle += 1
             else:
                 continue
         elif msg == 2:
-            if __m416 < 1 and __rifle < 1:
+            if __rifle < 1:
                 card.append('m416,1步')
-                __m416 += 1
                 __rifle += 1
             else:
                 continue
         elif msg == 3:
-            if __p18c < 1 and (__ak47 == 1 or __m416 == 1):
+            if __pistol < 1:
                 card.append('p18c,0.5步')
-                __p18c += 1
+                __pistol += 1
             else:
                 continue
         elif msg == 4:
-            msg = random.randint(1, 3)
-            if msg != 1:
-                card.append('护盾,0.5步')
-            else:
-                continue
+            card.append('护盾,0.5步')
         elif msg == 5:
             card.append('绷带,0.5步')
         elif msg == 6:
@@ -174,7 +167,7 @@ def bandage_treat(who):  # who 是被治疗的人
 
 
 # medicine_bag
-def medicine_bag_treet(who): # who 是被治疗的人
+def medicine_bag_treet(who):  # who 是被治疗的人
     if who == 'p1' and p1['health'] <= 20 and p1['step'] >= medicine_bag['step']:
         p1['health'] += medicine_bag['health']
         p1['step'] -= medicine_bag['step']
@@ -190,13 +183,13 @@ def medicine_bag_treet(who): # who 是被治疗的人
 
 
 # stun_grenade
-def stun_grenade_control(who): # who 是被控制的人
-    if who == 'p1' and p2['step'] >=  stun_grenade['step']:
-        p1['control'] += stun_grenade['control']
-        p2['step'] -= stun_grenade['step']
-    if who == 'p2' and p2['step'] >= stun_grenade['step']:
+def stun_grenade_control(who):  # who 是发起控制的人
+    if who == 'p1' and p1['step'] >= stun_grenade['step']:
         p2['control'] += stun_grenade['control']
         p1['step'] -= stun_grenade['step']
+    if who == 'p2' and p2['step'] >= stun_grenade['step']:
+        p1['control'] += stun_grenade['control']
+        p2['step'] -= stun_grenade['step']
 
 
 # 游戏主体
@@ -209,10 +202,12 @@ while True:
     if turn == 0:
         if p1['control'] == 0:
             print('轮到玩家一了')
-            print('玩家一拥有的卡牌：',','.join(p1_cards), '\n玩家二拥有的卡牌：',','.join(p2_cards))
-            print('p1的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (p1['step'], p1['health'], p1['shield'], p1['control']))
-            print('p2的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (p2['step'], p2['health'], p2['shield'], p2['control']))
-            print('请使用卡牌或积攒步数（输入s）',end = '')
+            print('玩家一拥有的卡牌：', ','.join(p1_cards), '\n玩家二拥有的卡牌：', ','.join(p2_cards))
+            print('p1的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (
+                p1['step'], p1['health'], p1['shield'], p1['control']))
+            print('p2的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (
+                p2['step'], p2['health'], p2['shield'], p2['control']))
+            print('请使用卡牌或积攒步数（回车）', end='')
             msg = input()
             if msg == 'ak47' and p1['step'] >= ak47['step'] and ('ak47,1.5步' in p1_cards):
                 ak47_attack('p1')
@@ -225,7 +220,7 @@ while True:
                 p1_cards.remove('手榴弹,1.5步')
             elif msg == '护盾' and p1['step'] >= riot_shield['step'] and ('护盾,0.5步' in p1_cards):
                 riot_shield_defense('p1')
-                p1_cards.remove('护盾,0.5步' )
+                p1_cards.remove('护盾,0.5步')
             elif msg == '绷带' and p1['step'] >= bandage['step'] and ('绷带,0.5步' in p1_cards):
                 bandage_treat('p1')
                 p1_cards.remove('绷带,0.5步')
@@ -233,7 +228,7 @@ while True:
                 medicine_bag_treet('p1')
                 p1_cards.remove('药包,1.5步')
             elif msg == '震爆弹' and p1['step'] >= stun_grenade['step'] and ('震爆弹,1步' in p1_cards):
-                stun_grenade_control('p2')
+                stun_grenade_control('p1')
                 p1_cards.remove('震爆弹,1步')
             else:
                 p1['step'] += 1
@@ -244,10 +239,12 @@ while True:
     elif turn == 1:
         if p2['control'] == 0:
             print('轮到玩家二了')
-            print('玩家一拥有的卡牌：',','.join(p1_cards), '\n玩家二拥有的卡牌：',','.join(p2_cards))
-            print('玩家一的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (p1['step'], p1['health'], p1['shield'], p1['control']))
-            print('玩家二的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (p2['step'], p2['health'], p2['shield'], p2['control']))
-            print('请使用卡牌或积攒步数（输入s）',end = '')
+            print('玩家一拥有的卡牌：', ','.join(p1_cards), '\n玩家二拥有的卡牌：', ','.join(p2_cards))
+            print('玩家一的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (
+                p1['step'], p1['health'], p1['shield'], p1['control']))
+            print('玩家二的状态为：步数：%s 生命值：%s 护盾值：%s 被控制：%s' % (
+                p2['step'], p2['health'], p2['shield'], p2['control']))
+            print('请使用卡牌或积攒步数（回车）', end='')
             msg = input()
             if msg == 'ak47' and p2['step'] >= ak47['step'] and ('ak47,1.5步' in p2_cards):
                 ak47_attack('p2')
@@ -260,7 +257,7 @@ while True:
                 p2_cards.remove('手榴弹,1.5步')
             elif msg == '护盾' and p2['step'] >= riot_shield['step'] and ('护盾,0.5步' in p2_cards):
                 riot_shield_defense('p2')
-                p2_cards.remove('护盾,0.5步' )
+                p2_cards.remove('护盾,0.5步')
             elif msg == '绷带' and p2['step'] >= bandage['step'] and ('绷带,0.5步' in p2_cards):
                 bandage_treat('p2')
                 p2_cards.remove('绷带,0.5步')
@@ -268,7 +265,7 @@ while True:
                 medicine_bag_treet('p2')
                 p2_cards.remove('药包,1.5步')
             elif msg == '震爆弹' and p2['step'] >= stun_grenade['step'] and ('震爆弹,1步' in p2_cards):
-                stun_grenade_control('p1')
+                stun_grenade_control('p2')
                 p2_cards.remove('震爆弹,1步')
             else:
                 p2['step'] += 1
@@ -277,5 +274,3 @@ while True:
         else:
             p2['control'] -= 1
         turn = 0
-    
-        
